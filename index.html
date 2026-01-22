@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wedding Invitation</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind CSS via CDN (browser build) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <style>
+    /* ---------- Base layout & typography ---------- */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont,
+        'Segoe UI', sans-serif;
+      color: #fdfdfd;
+    }
+
+    .script-font {
+      font-family: 'Great Vibes', cursive;
+    }
+
+    /* Glassmorphism card style for center content */
+    .backdrop-card {
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 1.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    /* Button highlight effect overlay */
+    .invite-button {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .invite-button::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left,
+          rgba(255, 255, 255, 0.35),
+          transparent 55%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .invite-button:hover::after,
+    .invite-button:focus-visible::after {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <!--
+    Main full-screen background layout
+    Uses a placeholder image `bride-groom-bg.jpg` as the romantic hero background.
+  -->
+  <div
+    class="relative min-h-screen flex flex-col bg-cover bg-center"
+    style="background-image: url('bride-groom-bg.jpg');"
+  >
+    <!-- Soft tinted overlay to keep text readable -->
+    <div class="absolute inset-0 bg-rose-950/60 md:bg-rose-950/55"></div>
+
+    <!--
+      Main content area: vertically & horizontally centered card
+      plus a subtle footer at the bottom.
+    -->
+    <div
+      class="relative z-10 flex flex-col min-h-screen items-center justify-between py-8 px-4"
+    >
+      <!-- Centered invitation card wrapper -->
+      <div class="flex-1 flex items-center justify-center w-full">
+        <main
+          class="backdrop-card max-w-xl w-full text-center px-6 py-10 sm:px-10 sm:py-12"
+        >
+          <p
+            class="uppercase tracking-[0.3em] text-[0.6rem] sm:text-xs text-amber-100/80 mb-4"
+          >
+            Wedding Invitation
+          </p>
+
+          <!-- Main English title -->
+          <h1
+            class="script-font text-4xl sm:text-5xl md:text-6xl text-white drop-shadow-md"
+          >
+            You're Invited!
+          </h1>
+
+          <!-- Arabic subtitle -->
+          <p class="mt-4 text-xl md:text-2xl text-white/90 leading-relaxed" dir="rtl">
+            دعوتنا فرحتنا تكمل بيكم
+          </p>
+
+          <!-- Short helper line in English -->
+          <p class="mt-3 text-sm sm:text-base text-amber-50/90">
+            Please choose which side you belong to
+          </p>
+
+          <!--
+            Choice buttons area
+            Mobile: stacked vertically
+            Desktop: side by side with spacing
+          -->
+          <div
+            class="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center sm:gap-6"
+          >
+            <!-- Bride's side button -->
+            <button
+              id="brideButton"
+              type="button"
+              class="invite-button w-full sm:w-auto px-7 sm:px-9 py-3.5 rounded-full bg-rose-100/95 text-rose-800 font-semibold text-sm sm:text-base tracking-wide shadow-lg shadow-black/20 border border-rose-50/80 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 hover:bg-rose-50 active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-200"
+            >
+              I’m from the Bride’s side
+            </button>
+
+            <!-- Groom's side button -->
+            <button
+              id="groomButton"
+              type="button"
+              class="invite-button w-full sm:w-auto px-7 sm:px-9 py-3.5 rounded-full bg-amber-100/95 text-amber-900 font-semibold text-sm sm:text-base tracking-wide shadow-lg shadow-black/20 border border-amber-50/80 transition-transform duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 hover:bg-amber-50 active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-200"
+            >
+              I’m from the Groom’s side
+            </button>
+          </div>
+        </main>
+      </div>
+
+      <!-- Footer text in Arabic -->
+      <footer class="mt-6 text-center text-xs sm:text-sm text-amber-50/90" dir="rtl">
+        في انتظاركم تشاركونا أحلى يوم في حياتنا
+      </footer>
+    </div>
+  </div>
+
+  <!-- WhatsApp integration logic -->
+  <script>
+    // WhatsApp click-to-chat helper
+    (function () {
+      // Phone numbers in international format (digits only, without '+')
+      // Bride's side number: +201206456443
+      const bridePhone = '201206456443';
+      // Groom's side number: interpreted as Egyptian mobile +20 1107576839
+      const groomPhone = '201107576839';
+
+      // Arabic pre-filled messages
+      const brideMessage =
+        'ازيك يا قمر , ألف مبروك ربنا يتمملكم على خير يا رب , اعملو حسابي بقا باذن الله هاجي والفرحة تكمل على خير';
+
+      const groomMessage =
+        'ألف ألف ألف مبروك ربنا يتمملكم على خير يا رب , اعملو حسابي بقا باذن الله هاجي والفرحة تكمل على خير';
+
+      /**
+       * Open WhatsApp chat with a pre-filled message.
+       * Builds the official click-to-chat URL and encodes Arabic text safely.
+       * @param {string} phone - target phone number (digits only)
+       * @param {string} message - message to send
+       */
+      function openWhatsApp(phone, message) {
+        const encodedMessage = encodeURIComponent(message);
+        const url = `https://wa.me/${phone}?text=${encodedMessage}`;
+
+        // Try opening in a new tab; if blocked (e.g., mobile), fall back to same tab
+        const win = window.open(url, '_blank');
+        if (!win) {
+          window.location.href = url;
+        }
+      }
+
+      // Attach click handlers to the buttons once DOM is ready
+      document.addEventListener('DOMContentLoaded', function () {
+        const brideButton = document.getElementById('brideButton');
+        const groomButton = document.getElementById('groomButton');
+
+        if (brideButton) {
+          brideButton.addEventListener('click', function () {
+            openWhatsApp(bridePhone, brideMessage);
+          });
+        }
+
+        if (groomButton) {
+          groomButton.addEventListener('click', function () {
+            openWhatsApp(groomPhone, groomMessage);
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
